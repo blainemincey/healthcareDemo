@@ -42,3 +42,11 @@ curl http://0.0.0.0:8080/api/patientsApi/test <== TO TEST
 
 curl http://0.0.0.0:8080/api/patientsApi/getPatientById/123 <== Should log in
 to Stitch/Atlas and call function
+
+## What you will need to modify
+healthcareDemo/server/routes/api/patientsApi.js
+
+This is the only file to be modified:
+Add the MongoDB Stitch APP ID
+Add the user email address
+Add the user password
