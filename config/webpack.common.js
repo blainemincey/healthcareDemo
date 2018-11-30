@@ -36,6 +36,25 @@ module.exports = {
         include: helpers.root('client'),
         loader: 'babel-loader'
       },
+      //CSS
+      {
+        test: /\.css$/,
+        exclude: /node_modules/,
+        loader: 'style-loader!css-loader?localIdentName=[name]__[local]__[hash:base64:5]&modules&importLoaders=1&sourceMap!postcss-loader',
+      }, {
+        test: /\.css$/,
+        include: /node_modules/,
+        loaders: ['style-loader', 'css-loader'],
+      },
+      // SVG images
+      {
+        test: /\.inline\.svg$/,
+        use: ['svg-react-loader']
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        use: ['file-loader']
+      },
 
       // SCSS files
       {

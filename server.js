@@ -1,6 +1,8 @@
 const nodemon = require('nodemon');
 const path = require('path');
 
+require('dotenv').config();
+
 nodemon({
   execMap: {
     js: 'node'

@@ -5,26 +5,26 @@ const {
 } = require('mongodb-stitch-server-sdk')
 
 /**
- * These are the values that must be modified
+ * These values are based on values in a .env
+ * file in the project root directory
  */
-const myStitchAppId = '<YOU MUST ADD THE STITCH CLIENT APP ID HERE>';
-const email = '<email address>';
-const password = '<password>';
+const myStitchAppId = process.env.MONGODB_STITCH_APP_ID;
+const defaultUser = process.env.DEFAULT_USER;
+const password = process.env.USER_ROLE_PASSWORD;
 
 /**
  * Login to Stitch
  */
 const stitchClient = Stitch.initializeDefaultAppClient(myStitchAppId);
-const credential = new UserPasswordCredential(email,password);
+const credential = new UserPasswordCredential(defaultUser,password);
 
 
 module.exports = (app) => {
 
   /**
-   * Simple get just for simple test
+   * Simple get for smoke test
    * Example:
    * curl http://0.0.0.0:8080/api/patientsApi/test
-   *
    */
   app.get('/api/patientsApi/test', (req,res,next) => {
     console.log('Test Successful.');
@@ -33,6 +33,7 @@ module.exports = (app) => {
 
   /**
    * Example GET call to interface with Stitch Function
+   * Get patient by patient id
    * Example curl call:
    * curl http://0.0.0.0:8080/api/patientsApi/getPatientById/123
    */
@@ -54,8 +55,126 @@ module.exports = (app) => {
         console.log(err);
         stitchClient.close();
       })
-
   });
+
+
+  /**
+   * Post request to get all patients.  The user is in the
+   * body of the request to facilitate what data is returned
+   * via Stitch Rules.
+   * Limits 20 to be returned.
+   */
+  app.post('/api/patientsApi/getPatients', (req,res,next) => {
+    console.log("User: " + req.body.user);
+    let credential = new UserPasswordCredential(req.body.user,password);
+    stitchClient.auth.loginWithCredential(credential)
+      .then(user => {
+        console.log('User logged in: ' + user.id);
+      })
+      .then(() => {
+        console.log("get all patients");
+        let mongodb = stitchClient.getServiceClient(
+          RemoteMongoClient.factory,
+          "mongodb-atlas"
+        );
+
+        let patientsCollection = mongodb.db("healthdb").collection("patients");
+
+        // TODO - add limit as a parameter
+        return patientsCollection.find({},{limit:20}).asArray();
+      })
+      .then( result => {
+        res.json(result);
+        stitchClient.close();
+      })
+      .catch( err => {
+        console.log(err);
+        stitchClient.close();
+      })
+  });
+
+  /**
+   * Example POST request to insert(i.e. push) data to an
+   * array in the patients collection.  Patient id passed
+   * as parameter and data passed in body.
+   */
+  app.post('/api/prescriptionApi/newPrescription/:PATIENT_ID', (req,res,next) => {
+
+    stitchClient.auth.loginWithCredential(credential)
+      .then( user => {
+        console.log('User logged in: ' + user.id);
+      })
+      .then( () => {
+        let prescription = {
+          prescriptionName : req.body.prescriptionName,
+          prescribedDate : new Date(req.body.prescribedDate),
+          expireDate : new Date(req.body.expireDate),
+          filled : req.body.filled,
+          filledDate : new Date(req.body.filledDate)
+        };
+
+        let query = { PATIENT_ID : req.params.PATIENT_ID };
+
+        let mongodb = stitchClient.getServiceClient(
+          RemoteMongoClient.factory,
+          "mongodb-atlas"
+        );
+
+        let patientsCollection = mongodb.db("healthdb").collection("patients");
+
+        return patientsCollection.updateOne(query, {'$push' :  {"PRESCRIPTIONS" : prescription} });
+
+      })
+      .then( result => {
+        res.json(result);
+        stitchClient.close();
+      })
+      .catch( err => {
+        console.log(err);
+        stitchClient.close();
+      })
+  });
+
+  /**
+   * POST request to add new prescription.  Prescription data
+   * is passed in body.  Writes to new collection.
+   */
+  app.post('/api/prescriptionApi/newPrescription', (req,res,next) => {
+
+    stitchClient.auth.loginWithCredential(credential)
+      .then( user => {
+        console.log('User logged in: ' + user.id);
+      })
+      .then( () => {
+        let prescription = {
+          PATIENT_ID : req.body.PATIENT_ID,
+          prescriptionName : req.body.prescriptionName,
+          prescribedDate : new Date(req.body.prescribedDate),
+          expireDate : new Date(req.body.expireDate),
+          filled : req.body.filled,
+          filledDate : new Date(req.body.filledDate)
+        };
+
+        let mongodb = stitchClient.getServiceClient(
+          RemoteMongoClient.factory,
+          "mongodb-atlas"
+        );
+
+        let prescriptionsCollection = mongodb.db("healthdb").collection("prescriptions");
+
+        return prescriptionsCollection.insertOne(prescription);
+
+      })
+      .then( result => {
+        res.json(result);
+        stitchClient.close();
+      })
+      .catch( err => {
+        console.log(err);
+        stitchClient.close();
+      })
+  });
+
 
 };
 

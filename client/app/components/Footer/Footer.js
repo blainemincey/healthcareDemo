@@ -1,10 +1,10 @@
 import React from 'react';
 
 const Footer = () => (
-  <footer>
-    <hr />
-    <p>Footer</p>
-  </footer>
+  <div className="App" >
+    <footer className="App-footer">
+    </footer>
+  </div>
 );
 
 export default Footer;

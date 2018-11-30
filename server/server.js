@@ -29,6 +29,12 @@ app.use(express.json());
 // API routes
 require('./routes')(app);
 
+//
+// Socket.io configuration
+//
+//const http = require('http').Server(app);
+//const io = require('socket.io')(http);
+
 if (isDev) {
   const compiler = webpack(webpackConfig);
 
@@ -59,7 +65,12 @@ if (isDev) {
   });
 }
 
-app.listen(port, '0.0.0.0', (err) => {
+//io.on('connection', () => {
+//  console.info("Socket.io connected.");
+//});
+
+
+const server = app.listen(port, '0.0.0.0', (err) => {
   if (err) {
     console.log(err);
   }

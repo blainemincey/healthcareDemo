@@ -2,5 +2,5 @@
 
 module.exports = {
   db: 'mongodb://username:password@url:port/db',
-  db_dev: 'mongodb://username:password@mycluster.com/db'
+  db_dev: process.env.MONGODB_ATLAS_URI
 };

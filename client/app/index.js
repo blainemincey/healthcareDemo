@@ -12,8 +12,8 @@ import App from './components/App/App';
 import NotFound from './components/App/NotFound';
 
 import Home from './components/Home/Home';
-
-import HelloWorld from './components/HelloWorld/HelloWorld';
+import UserRole from './components/UserRole/UserRole';
+import Notification from './components/Notification/Notification';
 
 import './styles/styles.scss';
 
@@ -21,8 +21,9 @@ render((
   <Router>
     <App>
       <Switch>
-        <Route exact path="/" component={Home}/>
-        <Route path="/helloworld" component={HelloWorld}/>
+        <Route exact path="/" component={UserRole}/>
+        <Route path="/home" component={Home}/>
+        <Route path="/notification" component={Notification}/>
         <Route component={NotFound}/>
       </Switch>
     </App>
