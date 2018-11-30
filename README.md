@@ -34,7 +34,7 @@ Development (Webpack dev server) mode:
 npm run start:dev
 ```
 
-##Example Tests (use curl and/or Postman)
+## Example Tests (use curl and/or Postman)
 1. http://0.0.0.0:8080/api/patientsApi/test 
 Simple smoke test.  No DB calls, etc.  Just a simple response.
 
@@ -55,10 +55,10 @@ Must pass a JSON document in body.  Example:
 
 **If you have set up Slack properly in Atlas, this will use a Stitch trigger to generate a Slack notification.
 
-##Example Tests with browser
+## Example Tests with browser
 1. Point browser to http://0.0.0.0:8080.  Test out the link navigation.
 Select 'UserRole'.  Different data is returned based on rules set in Stitch determined by user role selected using Radio Buttons.  At this time 'Other'  is not implemented.
 
-##Notes
+## Notes
 1. At this time of the initial version, Mongoose is not being utilized.  The scaffolding is in place to easily incorporate.
 2. Not all page placeholders have been implemented.  You may get navigation errors.
