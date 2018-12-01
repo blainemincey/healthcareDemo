@@ -10,7 +10,7 @@ This is a boilerplate project using the following technologies:
 
 ## Requirements
 
-- [Node.js](https://nodejs.org/en/) 6+
+- [Node.js](https://nodejs.org/en/) 11+
 
 ```shell
 npm install
