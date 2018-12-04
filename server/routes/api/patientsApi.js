@@ -1,23 +1,5 @@
-const {
-  Stitch,
-  RemoteMongoClient,
-  UserPasswordCredential
-} = require('mongodb-stitch-server-sdk')
-
-/**
- * These values are based on values in a .env
- * file in the project root directory
- */
-const myStitchAppId = process.env.MONGODB_STITCH_APP_ID;
-const defaultUser = process.env.DEFAULT_USER;
-const password = process.env.USER_ROLE_PASSWORD;
-
-/**
- * Login to Stitch
- */
-const stitchClient = Stitch.initializeDefaultAppClient(myStitchAppId);
-const credential = new UserPasswordCredential(defaultUser,password);
-
+const { UserPasswordCredential, RemoteMongoClient } = require('mongodb-stitch-server-sdk');
+const { stitchClient, credential, password } = require('../../utils/stitchAuth');
 
 module.exports = (app) => {
 
@@ -134,47 +116,6 @@ module.exports = (app) => {
         stitchClient.close();
       })
   });
-
-  /**
-   * POST request to add new prescription.  Prescription data
-   * is passed in body.  Writes to new collection.
-   */
-  app.post('/api/prescriptionApi/newPrescription', (req,res,next) => {
-
-    stitchClient.auth.loginWithCredential(credential)
-      .then( user => {
-        console.log('User logged in: ' + user.id);
-      })
-      .then( () => {
-        let prescription = {
-          PATIENT_ID : req.body.PATIENT_ID,
-          prescriptionName : req.body.prescriptionName,
-          prescribedDate : new Date(req.body.prescribedDate),
-          expireDate : new Date(req.body.expireDate),
-          filled : req.body.filled,
-          filledDate : new Date(req.body.filledDate)
-        };
-
-        let mongodb = stitchClient.getServiceClient(
-          RemoteMongoClient.factory,
-          "mongodb-atlas"
-        );
-
-        let prescriptionsCollection = mongodb.db("healthdb").collection("prescriptions");
-
-        return prescriptionsCollection.insertOne(prescription);
-
-      })
-      .then( result => {
-        res.json(result);
-        stitchClient.close();
-      })
-      .catch( err => {
-        console.log(err);
-        stitchClient.close();
-      })
-  });
-
 
 };
 
