@@ -7,14 +7,22 @@
   text-align: center;
 }
 
+/**
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 50px;
 }
 
+*/
+
+.App-logo {
+  height: 50px;
+  width: 100px;
+}
+
 .App-header {
   background-color: #222;
-  height: 100px;
+  height: 120px;
   padding: 20px;
   color: white;
 }
@@ -37,6 +45,7 @@
 .App-table-center {
   text-align: center;
 }
+
 
 .nav {
   background-color: LightSlateGray;

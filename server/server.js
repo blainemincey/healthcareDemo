@@ -22,18 +22,13 @@ mongoose.connect(isDev ? config.db_dev : config.db);
 mongoose.Promise = global.Promise;
 mongoose.set('debug', false);
 
+
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // API routes
 require('./routes')(app);
-
-//
-// Socket.io configuration
-//
-//const http = require('http').Server(app);
-//const io = require('socket.io')(http);
 
 if (isDev) {
   const compiler = webpack(webpackConfig);
@@ -65,12 +60,7 @@ if (isDev) {
   });
 }
 
-//io.on('connection', () => {
-//  console.info("Socket.io connected.");
-//});
-
-
-const server = app.listen(port, '0.0.0.0', (err) => {
+app.listen(port, '0.0.0.0', (err) => {
   if (err) {
     console.log(err);
   }
@@ -78,4 +68,5 @@ const server = app.listen(port, '0.0.0.0', (err) => {
   console.info('>>> 🌎 Open http://0.0.0.0:%s/ in your browser.', port);
 });
 
+// export for use in other modules
 module.exports = app;

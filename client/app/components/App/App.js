@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
-import Nav from '../Nav/Nav';
+import Navigation from '../Navigation/Navigation';
 
 const App = ({ children }) => (
   <>
     <Header />
 
-    <Nav/>
+    <Navigation/>
 
     <main>
       {children}

@@ -13,17 +13,18 @@ import NotFound from './components/App/NotFound';
 
 import Home from './components/Home/Home';
 import UserRole from './components/UserRole/UserRole';
-import Notification from './components/Notification/Notification';
+import Prescription from './components/Prescription/Prescription';
 
 import './styles/styles.scss';
+
 
 render((
   <Router>
     <App>
       <Switch>
-        <Route exact path="/" component={UserRole}/>
+        <Route path="/userrole" component={UserRole}/>
         <Route path="/home" component={Home}/>
-        <Route path="/notification" component={Notification}/>
+        <Route path="/prescription" component={Prescription}/>
         <Route component={NotFound}/>
       </Switch>
     </App>

@@ -4,17 +4,35 @@ import { render } from 'react-dom';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 import { RadioGroup, RadioButton} from "react-radio-buttons";
+import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only';
 
 class UserRole extends Component {
+
   constructor(props) {
     super(props);
 
+    // start off with no data
     this.state = {
-      data: this.fetchPatients('provider')
-    };
+      data: []
+    }
 
     this.onChange = this.onChange.bind(this);
 
+    // logic added to handle moving away from page if request is still active
+    this.abortableFetch = ('signal' in new Request('') ? window.fetch : fetch);
+    this.controller = new AbortController();
+  }
+
+  // when page loads
+  componentDidMount() {
+    this.setState({
+      data: this.fetchPatients('provider')
+    })
+  }
+
+  // abort fetch is this method is called
+  componentWillUnmount() {
+    this.controller.abort();
   }
 
   // interface to back-end api
@@ -23,6 +41,7 @@ class UserRole extends Component {
     let data = {user:username}
 
     fetch('api/patientsApi/getPatients', {
+      signal: this.controller.signal,
       method: 'POST',
       headers: {'Content-type':'application/json'},
       body: JSON.stringify(data)
@@ -33,8 +52,10 @@ class UserRole extends Component {
           data: json
         })
       })
-      .catch(error => {
-        console.log("Fetch Patients failed.", error);
+      .catch(function (ex) {
+        if(ex.name === 'AbortError'){
+          console.log('request aborted');
+        }
       })
   };
 
@@ -51,11 +72,11 @@ class UserRole extends Component {
     const {data} = this.state;
     return (
       <div>
-        <h4>User Role</h4>
+        <h4>User Role (Demo of Stitch Rules)</h4>
         <RadioGroup onChange={ this.onChange } horizontal value="Provider">
           <RadioButton value="provider" pointColor="black">Provider</RadioButton>
           <RadioButton value="pharmacy" pointColor="black">Pharmacy</RadioButton>
-          <RadioButton value="other" pointColor="black">Other</RadioButton>
+          <RadioButton value="payer" pointColor="black">Payer</RadioButton>
         </RadioGroup>
 
         <ReactTable
@@ -76,6 +97,21 @@ class UserRole extends Component {
               Header: "Last",
               id: "LAST",
               accessor: d => d.LAST
+            },
+            {
+              Header: "Marital Status",
+              id: "MARITAL",
+              accessor: d=> d.MARITAL
+            },
+            {
+              Header: "Race",
+              id: "RACE",
+              accessor: d=> d.RACE
+            },
+            {
+              Header: "Gender",
+              id: "GENDER",
+              accessor: d=> d.GENDER
             }
 
 
