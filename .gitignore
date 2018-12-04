@@ -1,5 +1,5 @@
 .DS_Store
-.idea/git
+.idea/
 .env
 node_modules/
 package-lock.json
