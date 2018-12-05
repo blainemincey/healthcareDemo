@@ -23,6 +23,7 @@ render((
   <Router>
     <App>
       <Switch>
+        <Route path="/" exact component={Intro}/>
         <Route path="/userrole" component={UserRole}/>
         <Route path="/intro" component={Intro}/>
         <Route path="/prescription" component={Prescription}/>
