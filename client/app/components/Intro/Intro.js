@@ -25,7 +25,7 @@ class Intro extends Component {
         <h4>Insert new Prescription</h4>
         <h5>With 'filled' flag set to false, Stitch Trigger sends message to Slack and Twilio</h5>
         <code>{`
-          curl  --request POST --url http://0.0.0.0:8080/api/prescriptionApi/newPrescription --header 'Content-Type: application/json' --header 'cache-control: no-cache' --data '{"PATIENT_ID" : "c2caaace-9119-4b2d-a2c3-4040f5a9cf32", "firstName" : "Blaine","lastName" : "Mincey","prescriptionName" : "MyNewPrescription", "filled" : false}
+          curl  --request POST --url http://0.0.0.0:8080/api/prescriptionApi/newPrescription --header 'Content-Type: application/json' --header 'cache-control: no-cache' --data '{"PATIENT_ID" : "c2caaace-9119-4b2d-a2c3-4040f5a9cf32", "firstName" : "Blaine","lastName" : "Mincey","prescriptionName" : "MyNewPrescription", "filled" : false}'
         `}
         </code>
         <hr/>
