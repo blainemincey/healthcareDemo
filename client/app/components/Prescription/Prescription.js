@@ -113,7 +113,7 @@ class Prescription extends Component {
 
   render() {
     return (
-      <div>
+      <div className="Main-Div">
         <header>
           <div className='container'>
             <nav className='navbar'>
@@ -142,7 +142,7 @@ class Prescription extends Component {
                   <span style={{color: "red"}}>{this.state.errors["firstName"]}</span>
                 </div>
               </div>
-
+              <br/>
               <div className="field">
                 <label className="label">Last Name</label>
                 <div className="control">
@@ -156,7 +156,7 @@ class Prescription extends Component {
                   <span style={{color: "red"}}>{this.state.errors["lastName"]}</span>
                 </div>
               </div>
-
+              <br/>
               <div className="field">
                 <label className="label">Prescription Name</label>
                 <div className="control">
@@ -170,6 +170,7 @@ class Prescription extends Component {
                   <span style={{color: "red"}}>{this.state.errors["prescriptionName"]}</span>
                 </div>
               </div>
+              <br/>
 
               <div className="field">
                 <label className="label">Filled</label>

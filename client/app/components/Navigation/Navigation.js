@@ -10,7 +10,7 @@ class Navigation extends Component {
       <div>
 
           <ul className="nav">
-            <li><Link to='/home' style={{color:'black'}} >Home</Link></li>
+            <li><Link to='/intro' style={{color:'black'}} >Intro</Link></li>
             <li><Link to='/userrole' style={{color:'black'}} >UserRole</Link></li>
             <li><Link to='/prescription' style={{color:'black'}} >Prescription</Link></li>
 

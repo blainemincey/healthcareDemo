@@ -71,7 +71,7 @@ class UserRole extends Component {
   render() {
     const {data} = this.state;
     return (
-      <div>
+      <div className="Main-Div">
         <h4>User Role (Demo of Stitch Rules)</h4>
         <RadioGroup onChange={ this.onChange } horizontal value="Provider">
           <RadioButton value="provider" pointColor="black">Provider</RadioButton>

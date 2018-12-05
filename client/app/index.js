@@ -11,9 +11,10 @@ import {
 import App from './components/App/App';
 import NotFound from './components/App/NotFound';
 
-import Home from './components/Home/Home';
+//import Counter from './components/Counter/Counter';
 import UserRole from './components/UserRole/UserRole';
 import Prescription from './components/Prescription/Prescription';
+import Intro from './components/Intro/Intro';
 
 import './styles/styles.scss';
 
@@ -23,7 +24,7 @@ render((
     <App>
       <Switch>
         <Route path="/userrole" component={UserRole}/>
-        <Route path="/home" component={Home}/>
+        <Route path="/intro" component={Intro}/>
         <Route path="/prescription" component={Prescription}/>
         <Route component={NotFound}/>
       </Switch>

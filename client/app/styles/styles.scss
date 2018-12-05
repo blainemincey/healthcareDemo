@@ -2,6 +2,22 @@
 
 @import 'vendor/normalize';
 
+.Main-Div {
+  padding: 5px 10px;
+}
+
+.code {
+  border-radius: 3px;
+  font-family: Courier, monospace;
+  padding: 0 3px;
+}
+
+.hr {
+  display: block;
+  margin: 0.5em auto;
+  border-style: inset;
+  border-width: 1px;
+}
 
 .App {
   text-align: center;

@@ -1,10 +1,9 @@
 const { RemoteMongoClient } = require('mongodb-stitch-server-sdk');
 const { stitchClient, credential } = require('../../utils/stitchAuth');
 
-var moment = require('moment');
+const moment = require('moment');
 
 module.exports = (app) => {
-
 
   /**
    * POST request to add new prescription.  Prescription data
@@ -20,15 +19,21 @@ module.exports = (app) => {
         console.log('User logged in: ' + user.id);
       })
       .then(() => {
+
+        console.log("Insert new prescription via curl/postman");
+
+        let currentTime = new Date();
+        let now = new Date(moment(currentTime).format('LL'));
+        let nextYear = new Date(moment(currentTime).add(1,'year').format('LL'));
+
         let prescription = {
           PATIENT_ID: req.body.PATIENT_ID,
           firstName: req.body.firstName,
           lastName: req.body.lastName,
           prescriptionName: req.body.prescriptionName,
-          prescribedDate: new Date(req.body.prescribedDate),
-          expireDate: new Date(req.body.expireDate),
-          filled: req.body.filled,
-          filledDate: new Date(req.body.filledDate)
+          prescribedDate: now,
+          expireDate: nextYear,
+          filled: req.body.filled
         };
 
         let mongodb = stitchClient.getServiceClient(
@@ -99,6 +104,4 @@ module.exports = (app) => {
         stitchClient.close();
       })
   });
-
-
 };

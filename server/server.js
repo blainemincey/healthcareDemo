@@ -13,6 +13,7 @@ const webpackConfig = require('../webpack.config');
 const isDev = process.env.NODE_ENV !== 'production';
 const port  = process.env.PORT || 8080;
 
+const HOSTNAME = process.env.HOSTNAME;
 
 // Configuration
 // ================================================================================================
@@ -60,12 +61,14 @@ if (isDev) {
   });
 }
 
-app.listen(port, '0.0.0.0', (err) => {
+const message = ">>> Open http://" + HOSTNAME + ":" + port + " in your browser.";
+
+app.listen(port, HOSTNAME, (err) => {
   if (err) {
     console.log(err);
   }
 
-  console.info('>>> 🌎 Open http://0.0.0.0:%s/ in your browser.', port);
+  console.info(message);
 });
 
 // export for use in other modules
